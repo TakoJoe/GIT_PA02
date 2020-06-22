@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class Player : MonoBehaviour
     private Animator thisAnimator = null;
 
     private float moveSpeed = 0.05f;
+
+    public GameObject Explosion;
+    public Transform player;
 
     void Start()
     {
@@ -52,6 +57,19 @@ public class Player : MonoBehaviour
 
         thisController.Move(MoveDirection);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.5f, 1.5f), transform.position.y, transform.position.z);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "obstacles")
+        {
+            Instantiate(Explosion, player.position, player.rotation);
+            GameManager.gameManager.Lives -= 1;
+            Destroy(other.gameObject);
+            if (GameManager.gameManager.Lives <= 0)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+        }
     }
 
 }

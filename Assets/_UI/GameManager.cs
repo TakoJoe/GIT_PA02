@@ -5,14 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager gameManager;
     public enum GameState {  GameOver, GameStart, GameIdle};
     public static GameState CurrentState = GameState.GameIdle;
 
-    public static int Lives = 3;
-    public static int Score = 0;
+    public int Lives = 3;
+    public int Score = 0;
 
     void Start()
     {
+        gameManager = this;
         Lives = 3;
         Score = 0;
         Time.timeScale = 0;
